@@ -1,0 +1,40 @@
+##RenderMan RIB-Structure 1.0
+
+FrameBegin 1
+
+Display "pine.tif" "file" "rgba"
+Format 1024 768 -1
+ShadingRate 1
+Projection "perspective" "fov" [30]
+FrameAspectRatio 1.33
+Identity
+
+# Default distant headlight
+LightSource "distantlight" 1
+
+# Camera transformation
+Translate 0 0 4		# Translate and rotate camera
+Rotate 30 -1 0 0
+
+WorldBegin
+
+Identity
+
+AttributeBegin
+
+  Color [1.0 0.6 0.0] # A nice orange color
+  # Displacement bounds, important for correct rendering
+  Attribute "displacementbound" "float sphere" [0.2] "coordinatesystem" ["shader"]
+  Surface "pine_surface"
+  Displacement "pine_displacement"
+  TransformBegin
+  	Translate 0 -0.7 0 # Moves the pine down to center it
+    Rotate 90 -1 0 0   # Rotate the cone so it points in the right direction [angle x- y- z-angle-to-rotate-around]
+    Cone 1.5 0.7 360 # create a cone [height radius thetamax]
+  TransformEnd
+
+AttributeEnd
+
+WorldEnd
+
+FrameEnd

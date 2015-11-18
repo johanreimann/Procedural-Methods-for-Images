@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
 	soupCreateSquare(&myShape); // Unit square built from two triangles
 
 	// Create a shader program object from GLSL code in two files
-	programObject = createShader("vertexshader.glsl", "fragmentshader.glsl");
+	programObject = createShader("../vertexshader.glsl", "../fragmentshader.glsl");
 	
 	location_tex = glGetUniformLocation( programObject, "tex" );
 
@@ -157,8 +157,12 @@ int main(int argc, char *argv[]) {
 			{
 				y = (double)j / IMAGE_SIZE;
 
-				// Perlin noise
-				red = 128 + 127*noise3(8.0*x, 8.0*y, 0.5*time);
+                double wave = ((x*x*x)*3)-((x*x)*cos(1.5*time)*1.5);
+                double red = 128 + 127*snoise3((cos(x-0.5))*16.0, (0.5-x)*16.0-(y-0.5)*4.0*wave, 0.2*time);
+
+                // Perlin noise
+                //red = 128 + 127*noise3(cos(8.0*x), 8.0*y, 0.5*time);
+
 
 				// Cellular (Worley) noise
 //				point[0] = 12.0*x;
@@ -168,8 +172,8 @@ int main(int argc, char *argv[]) {
 //				red = 120*(F[1]-F[0]);
 
 				// Set red=grn=blu for grayscale image
-				grn = red;
-				blu = red;
+				// grn = red;
+				// blu = red;
 
 				k = (i + j*IMAGE_SIZE)*4;
 				pixels[k] = red;
